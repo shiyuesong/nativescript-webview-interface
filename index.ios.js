@@ -16,7 +16,6 @@
          * @see https://github.com/shripalsoni04/nativescript-webview-interface/issues/22
          *
          */
-        this.isUsingWKWebView = this.webView.ios.constructor.name === "WKWebView";
 
         this._listenWebViewLoadStarted();
         if(src){
@@ -63,6 +62,9 @@
      */
     WebViewInterface.prototype._executeJS = function(strJSFunction) {
         return new Promise(function(resolve, reject) {
+            if (this.isUsingWKWebView == undefined) {
+                this.isUsingWKWebView = this.webView.ios.constructor.name === "WKWebView";
+            }
             if (this.isUsingWKWebView) {
                 this.webView.ios.evaluateJavaScriptCompletionHandler(strJSFunction, function(data, error) {
                     if (error) {
